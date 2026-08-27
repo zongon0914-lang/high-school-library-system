@@ -1,0 +1,92 @@
+[
+  {
+    "title": "臺灣歷史",
+    "subtitle": "Taiwan History",
+    "file": "assets/covers/audiobook_tiles/pack01.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "臺灣歷史",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack01",
+    "tile": true
+  },
+  {
+    "title": "世界歷史",
+    "subtitle": "World History",
+    "file": "assets/covers/audiobook_tiles/pack02.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "世界歷史",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack02",
+    "tile": true
+  },
+  {
+    "title": "中國歷史",
+    "subtitle": "China History",
+    "file": "assets/covers/audiobook_tiles/pack03.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "中國歷史",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack03",
+    "tile": true
+  },
+  {
+    "title": "偉人故事",
+    "subtitle": "Great Story",
+    "file": "assets/covers/audiobook_tiles/pack04.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "偉人故事",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack04",
+    "tile": true
+  },
+  {
+    "title": "文明歷史",
+    "subtitle": "Civilization History",
+    "file": "assets/covers/audiobook_tiles/pack05.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "文明歷史",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack05",
+    "tile": true
+  },
+  {
+    "title": "成長故事",
+    "subtitle": "Growth Story",
+    "file": "assets/covers/audiobook_tiles/pack06.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "成長故事",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack06",
+    "tile": true
+  },
+  {
+    "title": "閩南語創作兒童詩歌",
+    "subtitle": "Minnan Poetry",
+    "file": "assets/covers/audiobook_tiles/pack07.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "閩南語創作兒童詩歌",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack07",
+    "tile": true
+  },
+  {
+    "title": "說相聲學語文",
+    "subtitle": "Crosstalk",
+    "file": "assets/covers/audiobook_tiles/pack08.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "說相聲學語文",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack08",
+    "tile": true
+  },
+  {
+    "title": "英文派",
+    "subtitle": "English Pie",
+    "file": "assets/covers/audiobook_tiles/pack09.png",
+    "type": "audiobook",
+    "source": "小魯數位有聲書 (LibriSpace)",
+    "category": "英文派",
+    "link": "https://librispace.flysheet.com.tw/reader?pid=luHistoryPack09",
+    "tile": true
+  }
+]

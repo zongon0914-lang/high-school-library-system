@@ -1,0 +1,24 @@
+# saved reference page used only to extract data — large, not part of the site
+The New York Times - Breaking News, US News, World News and Videos.html
+The New York Times - Breaking News, US News, World News and Videos_files/
+
+# design research screenshots — not used by the site
+UI參考/
+
+# scratch / unused pages
+_t_links.html
+_t_news.html
+
+# private planning doc
+*.docx
+
+# leftover source images already copied into assets/covers/flybook_tiles/
+/古典留聲故事.jpg
+/國學精品課程.jpg
+/成語故事.jpg
+/說唱相聲.jpg
+/質感生活選輯.jpg
+/閩南語經典.jpg
+
+.DS_Store
+Thumbs.db

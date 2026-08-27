@@ -1,0 +1,282 @@
+[
+  {
+    "title": "A Squiggly Story",
+    "author": "Andrew Larsen",
+    "file": "assets/covers/ebook/01_A_Squiggly_Story.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Different? Same!",
+    "author": "Heather Tekavec",
+    "file": "assets/covers/ebook/02_Different_Same.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Going Up!",
+    "author": "Sherry J. Lee",
+    "file": "assets/covers/ebook/03_Going_Up.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "This is Not My Story",
+    "author": "Ryan Uytdewilligen",
+    "file": "assets/covers/ebook/04_This_is_Not_My_Story.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Nick the Sidekick (Graphic Novel)",
+    "author": "Dave Whamond",
+    "file": "assets/covers/ebook/05_Nick_the_Sidekick_Graphic_Novel.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Otis & Peanut (Graphic Novel)",
+    "author": "Naseem Hrab",
+    "file": "assets/covers/ebook/06_Otis_Peanut_Graphic_Novel.png",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Coming Soon: Rover and Speck: This Planet Rocks! (Graphic Novel)",
+    "author": "Jonathan Roth",
+    "file": "assets/covers/ebook/07_Coming_Soon_Rover_and_Speck_This_Pl.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Coming Soon: Franklin and the Thunderstorm",
+    "author": "Paulette Bourgeois",
+    "file": "assets/covers/ebook/08_Coming_Soon_Franklin_and_the_Thunde.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Coming Soon: Muddle School (Graphic Novel)",
+    "author": "Dave Whamond",
+    "file": "assets/covers/ebook/09_Coming_Soon_Muddle_School_Graphic_N.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Coming Soon: Kersplash! A Cloud Bursts",
+    "author": "Jessica Kulekjian",
+    "file": "assets/covers/ebook/10_Coming_Soon_Kersplash_A_Cloud_Burst.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Alien Nate (Graphic Novel)",
+    "author": "Dave Whamond",
+    "file": "assets/covers/ebook/11_Alien_Nate_Graphic_Novel.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Linty: A Pocketful of Adventure (Graphic Novel)",
+    "author": "Mike Shiell",
+    "file": "assets/covers/ebook/12_Linty_A_Pocketful_of_Adventure_Grap.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "The Unlucky Kid (Graphic Novel)",
+    "author": "Bob Holt",
+    "file": "assets/covers/ebook/13_The_Unlucky_Kid_Graphic_Novel.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Burt the Beetle Doesn’t Bite! (Graphic Novel)",
+    "author": "Ashley Spires",
+    "file": "assets/covers/ebook/14_Burt_the_Beetle_Doesn_t_Bite_Graphi.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Living With Viola (Graphic Novel)",
+    "author": "Rosena Fung",
+    "file": "assets/covers/ebook/15_Living_With_Viola_Graphic_Novel.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Brianna Banana, Worst Surprise Ever (Read-Along)",
+    "author": "Lana Button",
+    "file": "assets/covers/ebook/16_Brianna_Banana_Worst_Surprise_Ever_.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Jordan and Max: Showtime (Read-Along)",
+    "author": "Suzanne Sutherland",
+    "file": "assets/covers/ebook/17_Jordan_and_Max_Showtime_Read_Along.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Hush, Puppy (Read-Along)",
+    "author": "Sigmund Brouwer",
+    "file": "assets/covers/ebook/18_Hush_Puppy_Read_Along.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Jordan and Max: Race Day (Read-Along)",
+    "author": "Suzanne Sutherland",
+    "file": "assets/covers/ebook/19_Jordan_and_Max_Race_Day_Read_Along.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Genie Meanie (Read-Along)",
+    "author": "Mahtab Narsimhan",
+    "file": "assets/covers/ebook/20_Genie_Meanie_Read_Along.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "The Secret Office (Read-Along)",
+    "author": "Sara Cassidy",
+    "file": "assets/covers/ebook/21_The_Secret_Office_Read_Along.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Ellie May on April Fools' Day (EBook)",
+    "author": "Hillary Homzie",
+    "file": "assets/covers/ebook/22_Ellie_May_on_April_Fools_Day_EBook.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Pasture Bedtime (EBook)",
+    "author": "Sigmund Brouwer",
+    "file": "assets/covers/ebook/23_Pasture_Bedtime_EBook.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Thunder Creek Ranch (EBook)",
+    "author": "Sonya Spreen Bates",
+    "file": "assets/covers/ebook/24_Thunder_Creek_Ranch_EBook.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "X Marks the Spot (EBook)",
+    "author": "Jeff Szpirglas and Danielle Saint-Onge",
+    "file": "assets/covers/ebook/25_X_Marks_the_Spot_EBook.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Bee & Flea and the Compost Caper (EBook)",
+    "author": "Anna Humphrey",
+    "file": "assets/covers/ebook/26_Bee_Flea_and_the_Compost_Caper_EBoo.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Bee & Flea and the Puddle Problem (EBook)",
+    "author": "Anna Humphrey",
+    "file": "assets/covers/ebook/27_Bee_Flea_and_the_Puddle_Problem_EBo.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Billie and Bean in the Mountains",
+    "author": "Julia Hansson",
+    "file": "assets/covers/ebook/28_Billie_and_Bean_in_the_Mountains.jpeg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "The Rock and the Butterfly",
+    "author": "Kathy Stinson",
+    "file": "assets/covers/ebook/29_The_Rock_and_the_Butterfly.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "When the Air Sang",
+    "author": "Laura Bontje",
+    "file": "assets/covers/ebook/30_When_the_Air_Sang.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Fighting Words",
+    "author": "Leonarda Carranza",
+    "file": "assets/covers/ebook/31_Fighting_Words.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Walking Together",
+    "author": "Elder Dr. Albert D. Marshall and Louise Zimanyi",
+    "file": "assets/covers/ebook/32_Walking_Together.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Stella, Fairy of the Forest",
+    "author": "Marie-Louise Gay",
+    "file": "assets/covers/ebook/33_Stella_Fairy_of_the_Forest.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Nuestro techo es azul (Spanish)",
+    "author": "Sara E. Echenique",
+    "file": "assets/covers/ebook/34_Nuestro_techo_es_azul_Spanish.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Mil mariposas blancas (Spanish)",
+    "author": "Jessica Betancourt-Perez and Karen Lynn Williams",
+    "file": "assets/covers/ebook/35_Mil_mariposas_blancas_Spanish.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Kibo y el dragón morado (Spanish)",
+    "author": "Carmen Gil",
+    "file": "assets/covers/ebook/36_Kibo_y_el_dragón_morado_Spanish.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "¡Sin nueces para mí! (Spanish)",
+    "author": "Aaron Zevy",
+    "file": "assets/covers/ebook/37_Sin_nueces_para_mí_Spanish.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Arco iris de radio retro (Spanish)",
+    "author": "Aaron Zevy",
+    "file": "assets/covers/ebook/38_Arco_iris_de_radio_retro_Spanish.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "Des formes, des formes et plus de formes (French)",
+    "author": "Aaron Zevy",
+    "file": "assets/covers/ebook/39_Des_formes_des_formes_et_plus_de_fo.jpg",
+    "type": "ebook",
+    "source": "TumbleBook"
+  },
+  {
+    "title": "A l'abordage! (French)",
+    "author": "Béatrice M. Richet",
+    "file": "assets/covers/ebook/40_A_l_abordage_French.png",
+    "type": "ebook",
+    "source": "TumbleBook"
+  }
+]
