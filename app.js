@@ -201,7 +201,7 @@ function openModal(item, sec) {
   ];
   if (item.category) rows.push(['所屬分類', item.category]);
   if (item.format)   rows.push(['版本', item.format]);
-  rows.push(['借閱方式', '校內 IP 或帳號登入後即可線上閱讀']);
+  rows.push(['使用方式', '校內 IP 或帳號登入後即可線上閱讀']);
 
   document.getElementById('m-rows').innerHTML =
     rows.map(([k, v]) => `<div><span>${k}</span><span>${escapeHtml(v)}</span></div>`).join('');
