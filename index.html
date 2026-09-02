@@ -22,11 +22,11 @@
       </div>
     </div>
     <nav class="topnav">
-      <a href="#sec-magazine">雜誌</a>
-      <a href="#sec-ebook">電子書</a>
-      <a href="#sec-audiobook">有聲書</a>
-      <a href="#sec-newspaper">報紙</a>
-      <a href="#" id="nav-research">研究資源</a>
+      <button type="button" class="nav-fav" id="nav-fav" aria-haspopup="dialog" title="我的收藏庫">
+        <svg class="nav-fav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.7-4.35-9.3-8.1C1 10.4 1.5 7 4.4 5.6 6.6 4.5 9 5.3 12 8.2c3-2.9 5.4-3.7 7.6-2.6C22.5 7 23 10.4 21.3 12.9 18.7 16.65 12 21 12 21z"/></svg>
+        <span>收藏</span>
+        <span class="nav-fav-count" id="nav-fav-count" hidden>0</span>
+      </button>
       <a href="#">使用說明</a>
       <a href="#" class="login">登入</a>
     </nav>
@@ -98,6 +98,17 @@
       <a class="m-go" id="m-go" target="_blank" rel="noopener">前往平台 →</a>
       <p class="m-note">＊ 使用與閱讀在原平台完成，本站僅提供統一查詢入口。</p>
     </div>
+  </div>
+</div>
+
+<!-- ===== 收藏庫 Modal ===== -->
+<div class="modal-bg" id="fav-modal-bg">
+  <div class="modal fav-modal">
+    <div class="fav-modal-head">
+      <h3>我的收藏庫</h3>
+      <button class="m-close" id="fav-modal-close" aria-label="關閉">&times;</button>
+    </div>
+    <div class="fav-modal-body" id="fav-modal-body"></div>
   </div>
 </div>
 

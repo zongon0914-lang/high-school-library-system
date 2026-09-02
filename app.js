@@ -31,6 +31,40 @@ let activeTab      = 'all';
 let keyword        = '';
 let activeCategory = null;   // { type, name } or null
 
+/* ---------- 收藏庫（存在瀏覽器 localStorage，用 link 當唯一 key） ---------- */
+const FAV_KEY = 'hs-library-favorites';
+const favorites = new Map();
+try {
+  JSON.parse(localStorage.getItem(FAV_KEY) || '[]').forEach(it => favorites.set(it.link, it));
+} catch (e) { /* 私密瀏覽等情境下 localStorage 可能不可用，忽略即可 */ }
+
+function saveFavorites() {
+  try { localStorage.setItem(FAV_KEY, JSON.stringify([...favorites.values()])); } catch (e) {}
+}
+
+function toggleFavorite(item) {
+  const key = item.link;
+  if (favorites.has(key)) {
+    favorites.delete(key);
+  } else {
+    favorites.set(key, {
+      title: item.title, file: item.file, link: item.link, type: item.type,
+      author: item.author, subtitle: item.subtitle, category: item.category,
+      format: item.format,
+    });
+  }
+  saveFavorites();
+  updateFavCount();
+  return favorites.has(key);
+}
+
+function updateFavCount() {
+  const el = document.getElementById('nav-fav-count');
+  const n = favorites.size;
+  el.textContent = n;
+  el.hidden = n === 0;
+}
+
 /* ---------- 建立畫面 ---------- */
 function render() {
   const main = document.getElementById('main');
@@ -125,10 +159,13 @@ function makeCard(item, sec) {
 
   const sub = item.author || item.subtitle || '';
 
+  const isFav = favorites.has(item.link);
   card.innerHTML = `
     <div class="cover-wrap">
       <span class="badge ${item.type}">${TYPE_LABEL[item.type]}</span>
-      <button class="heart" title="加入收藏">&#10084;</button>
+      <button class="heart${isFav ? ' on' : ''}" title="加入收藏" aria-pressed="${isFav}">
+        <svg class="heart-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.7-4.35-9.3-8.1C1 10.4 1.5 7 4.4 5.6 6.6 4.5 9 5.3 12 8.2c3-2.9 5.4-3.7 7.6-2.6C22.5 7 23 10.4 21.3 12.9 18.7 16.65 12 21 12 21z"/></svg>
+      </button>
       <img class="cover" src="${item.file}" alt="${escapeHtml(item.title)}" loading="lazy">
     </div>
     <div class="meta">
@@ -136,10 +173,16 @@ function makeCard(item, sec) {
       ${sub ? `<div class="author">${escapeHtml(sub)}</div>` : ''}
     </div>`;
 
-  // 愛心收藏（純視覺）
+  // 愛心收藏：狀態存在 localStorage，收藏庫可即時反映
   card.querySelector('.heart').addEventListener('click', e => {
     e.stopPropagation();
-    e.currentTarget.classList.toggle('on');
+    const nowFav = toggleFavorite(item);
+    e.currentTarget.classList.toggle('on', nowFav);
+    e.currentTarget.setAttribute('aria-pressed', nowFav);
+    if (!nowFav && card.closest('#fav-modal-body')) {
+      card.remove();
+      if (!favorites.size) renderFavoritesModal();
+    }
   });
 
   // 每張封面都可以點進詳情
@@ -266,7 +309,42 @@ function closeModal() {
 document.getElementById('modal-bg').addEventListener('click', e => {
   if (e.target.id === 'modal-bg') closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ---------- 收藏庫 Modal ---------- */
+function renderFavoritesModal() {
+  const body = document.getElementById('fav-modal-body');
+  body.innerHTML = '';
+  const items = [...favorites.values()];
+
+  if (!items.length) {
+    body.innerHTML = '<p class="fav-empty">還沒有收藏的資源，點擊書封上的愛心即可加入收藏。</p>';
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'grid fav-grid';
+  items.forEach(item => {
+    const sec = SECTIONS.find(s => s.type === item.type) || {};
+    // 點進書封詳情時收藏庫留在背景不關閉，這樣關掉詳情 Modal 才會回到收藏庫
+    const card = makeCard(item, sec);
+    grid.appendChild(card);
+  });
+  body.appendChild(grid);
+}
+
+function openFavModal() {
+  renderFavoritesModal();
+  document.getElementById('fav-modal-bg').classList.add('show');
+}
+function closeFavModal() {
+  document.getElementById('fav-modal-bg').classList.remove('show');
+}
+
+document.getElementById('nav-fav').addEventListener('click', openFavModal);
+document.getElementById('fav-modal-close').addEventListener('click', closeFavModal);
+document.getElementById('fav-modal-bg').addEventListener('click', e => {
+  if (e.target.id === 'fav-modal-bg') closeFavModal();
+});
 
 /* ---------- 左側分類抽屜 ---------- */
 // 記住哪些主題／子群組是展開的；預設全部收起，使用者點了才展開
@@ -453,20 +531,6 @@ document.getElementById('tabs').addEventListener('click', e => {
   render();
 });
 
-/* 頂部導覽「研究資源」：屬於獨立主題，需先切換頁籤才會出現在畫面上，再捲動過去 */
-document.getElementById('nav-research').addEventListener('click', e => {
-  e.preventDefault();
-  activeTab = 'research';
-  syncTabButtons();
-  if (activeCategory && activeCategory.type !== activeTab) {
-    activeCategory = null;
-    updateActiveFilterBanner();
-    buildCategorySidebar();
-  }
-  render();
-  document.getElementById('sec-research')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
 /* ---------- 搜尋框 ---------- */
 document.getElementById('q').addEventListener('input', e => {
   keyword = e.target.value.trim();
@@ -486,6 +550,13 @@ document.getElementById('s-news').textContent = LIBRARY_DATA.newspaperSections
   : LIBRARY_DATA.newspaper.length;
 document.getElementById('s-ebk').textContent  = LIBRARY_DATA.ebook.length;
 document.getElementById('s-aud').textContent  = (LIBRARY_DATA.audiobook.length + (LIBRARY_DATA.flybook ? LIBRARY_DATA.flybook.length : 0));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+// Esc 只關掉最上層的畫面：書封詳情 > 收藏庫 > 分類抽屜，這樣才不會一次全關掉
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (document.getElementById('modal-bg').classList.contains('show')) closeModal();
+  else if (document.getElementById('fav-modal-bg').classList.contains('show')) closeFavModal();
+  else closeDrawer();
+});
+updateFavCount();
 buildCategorySidebar();
 render();

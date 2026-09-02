@@ -56,6 +56,22 @@ body {
 }
 .topnav .login:hover { background: rgba(255,255,255,.12); text-decoration: none; }
 
+.nav-fav {
+  display: flex; align-items: center; gap: 6px;
+  border: 0; background: none; color: #fff; cursor: pointer;
+  font-family: inherit; font-size: 14px; opacity: .85; padding: 0;
+}
+.nav-fav:hover { opacity: 1; }
+.nav-fav-icon {
+  width: 16px; height: 16px; flex: 0 0 auto;
+  fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round;
+}
+.nav-fav-count {
+  min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--accent); color: #fff; font-size: 10.5px; font-weight: 700;
+  display: grid; place-items: center; line-height: 1;
+}
+
 /* ---------- 搜尋區 ---------- */
 .hero { background: var(--ink-2); color: #fff; padding: 34px 0 0; }
 .searchbox { display: flex; gap: 10px; max-width: 720px; margin: 0 auto; }
@@ -297,11 +313,16 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
   position: absolute; right: 8px; top: 8px; z-index: 2;
   width: 27px; height: 27px; border-radius: 50%;
   background: rgba(255,255,255,.92); border: 0; cursor: pointer;
-  display: grid; place-items: center; font-size: 13px; color: #b9b4ad;
+  display: grid; place-items: center; color: #b9b4ad;
   box-shadow: 0 1px 4px rgba(0,0,0,.15);
 }
+/* 用 SVG 畫愛心而不是 emoji 字元：emoji 在部分裝置（如 iPad）會強制用彩色圖案顯示，
+   忽略 CSS 顏色設定，才會出現跟其他平台不一致的樣子 */
+.heart-icon { width: 14px; height: 14px; display: block; }
+.heart-icon path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 .heart:hover { color: var(--mag); }
 .heart.on { color: var(--mag); }
+.heart.on .heart-icon path { fill: currentColor; }
 
 /* 同一主題底下依來源分開顯示的子區塊（例如有聲書：小魯數位／飛聽Book） */
 .sub-block + .sub-block { margin-top: 34px; }
@@ -462,6 +483,9 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
   display: none; place-items: center; padding: 24px; z-index: 50;
 }
 .modal-bg.show { display: grid; }
+/* 書封詳情 Modal 疊在收藏庫 Modal 上面：從收藏庫點進詳情、關掉後才會回到收藏庫 */
+#fav-modal-bg { z-index: 50; }
+#modal-bg { z-index: 52; }
 .modal {
   background: #fff; border-radius: 14px; max-width: 640px; width: 100%;
   box-shadow: 0 20px 60px rgba(0,0,0,.3); overflow: hidden;
@@ -488,6 +512,21 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
 .m-go:hover { background: var(--accent-dk); }
 .m-note { font-size: 11.5px; color: var(--muted); margin-top: 12px; }
 
+/* ---------- 收藏庫 Modal ---------- */
+.fav-modal {
+  grid-template-columns: 1fr; max-width: 860px;
+  max-height: 82vh; display: flex; flex-direction: column;
+}
+.fav-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 26px; border-bottom: 1px solid var(--line); flex: 0 0 auto;
+}
+.fav-modal-head h3 { margin: 0; font-size: 18px; }
+.fav-modal-head .m-close { position: static; }
+.fav-modal-body { padding: 22px 26px 28px; overflow-y: auto; flex: 1 1 auto; }
+.fav-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+.fav-empty { text-align: center; color: var(--muted); padding: 50px 10px; }
+
 /* ---------- 頁尾 ---------- */
 footer {
   background: var(--ink); color: rgba(255,255,255,.6);
@@ -495,9 +534,59 @@ footer {
 }
 footer p { margin: 3px 0; }
 
-@media (max-width: 680px) {
-  .modal { grid-template-columns: 1fr; }
+/* ---------- 響應式：平板／手機橫向 ---------- */
+@media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
+
+  .topbar .wrap { gap: 14px; padding-top: 12px; padding-bottom: 12px; }
+  .brand .sub { display: none; }
+  .brand h1 { font-size: 16px; }
+  .topnav { gap: 16px; font-size: 13px; }
+
+  .hero { padding-top: 24px; }
+  .searchbox { max-width: 100%; }
+  .tabs { gap: 4px; margin-top: 16px; }
+  .tabs button { padding: 8px 14px; font-size: 13.5px; }
+  .stats .wrap { gap: 14px 20px; font-size: 12px; padding: 9px 16px; }
+
+  main.wrap { padding-top: 44px; }
+  .section-head { gap: 8px 12px; margin-bottom: 16px; }
+  .section-head h2 { font-size: 18px; }
+
+  .grid-tiles { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  .grid-links { grid-template-columns: 1fr; }
+
+  .modal { grid-template-columns: 1fr; max-width: 92vw; }
   .modal .m-cover { max-height: 200px; }
-  .stats .wrap { gap: 18px; font-size: 12.5px; }
-  .grid { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 14px; }
+  .fav-modal { max-width: 92vw; }
+}
+
+/* ---------- 響應式：手機直向 ---------- */
+@media (max-width: 480px) {
+  .cat-edge-tab { width: 22px; height: 60px; }
+
+  .brand { gap: 8px; }
+  .brand .mark { width: 32px; height: 32px; font-size: 16px; }
+  .brand h1 { font-size: 14.5px; }
+  .topnav { gap: 12px; font-size: 12.5px; }
+  .topnav .login { padding: 3px 12px; }
+
+  .searchbox { flex-wrap: wrap; gap: 8px; }
+  .searchbox input { flex: 1 1 100%; padding: 11px 18px; font-size: 14px; }
+  .searchbox button { flex: 1 1 100%; padding: 11px 18px; }
+
+  .tabs { gap: 4px 6px; }
+  .tabs button { padding: 7px 11px; font-size: 12.5px; }
+  .stats .wrap { gap: 8px 16px; }
+
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .card .title { font-size: 12.5px; }
+  .grid-tiles { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .research-card { flex-direction: column; }
+
+  .modal .m-body { padding: 20px 18px; }
+  .modal h3 { font-size: 18px; }
+  .fav-modal-head { padding: 14px 18px; }
+  .fav-modal-body { padding: 16px 18px 22px; }
+  .fav-grid { grid-template-columns: repeat(2, 1fr); }
 }
