@@ -5,15 +5,26 @@ const SECTIONS = [
     home: 'https://library.thekono.com/ljsh/libraries/chinese' },
   { type: 'ebook',     label: '電子書',   platform: 'TumbleBook Library', layout: 'cards',
     home: 'https://www.tumblebooklibrary.com/auto_login.aspx?U=ntl&P=libra' },
-  { type: 'audiobook', label: '有聲書 — 小魯數位', platform: '小魯數位有聲書 (LibriSpace)', layout: 'tiles',
+  { type: 'audiobook', label: '有聲書', platform: '小魯數位有聲書 / 飛聽Book', layout: 'tiles',
+    keys: ['audiobook', 'flybook'],
+    subgroups: [
+      { key: 'audiobook', label: '小魯數位有聲書' },
+      { key: 'flybook',   label: '飛聽Book' },
+    ],
     home: 'https://librispace.flysheet.com.tw/' },
-  { type: 'flybook',   label: '有聲書 — 飛聽Book', platform: '飛聽Book 有聲書平台', layout: 'tiles',
-    home: 'https://flybook.flysheet.com.tw/' },
   { type: 'newspaper', label: '電子報紙', platform: 'The New York Times', layout: 'news',
     home: 'https://www.nytimes.com/' },
+  { type: 'research',  label: '研究資源', platform: '延伸研究工具', layout: 'links',
+    standalone: true,
+    home: 'https://www.shs.edu.tw/' },
 ];
 
-const TYPE_LABEL = { magazine: '雜誌', newspaper: '報紙', ebook: '電子書', audiobook: '有聲書', flybook: '有聲書' };
+/* 取得某主題底下所有項目；支援 keys 合併多個 LIBRARY_DATA 來源（例如有聲書合併小魯＋飛聽） */
+function sectionItems(sec) {
+  return (sec.keys || [sec.type]).flatMap(k => LIBRARY_DATA[k] || []);
+}
+
+const TYPE_LABEL = { magazine: '雜誌', newspaper: '報紙', ebook: '電子書', audiobook: '有聲書', flybook: '有聲書', research: '研究' };
 
 
 let activeTab      = 'all';
@@ -28,6 +39,8 @@ function render() {
 
   SECTIONS.forEach(sec => {
     if (activeTab !== 'all' && activeTab !== sec.type) return;
+    // 獨立主題（如研究資源）不列入「全部」瀏覽，只能透過自己的頁籤查看
+    if (sec.standalone && activeTab !== sec.type) return;
     if (activeCategory && activeCategory.type !== sec.type) return;
 
     // 新聞牆是純展示區塊：搜尋或分類篩選時整區隱藏，不混進館藏查詢結果
@@ -35,7 +48,7 @@ function render() {
     if (isNews && (keyword || activeCategory)) return;
 
     const items = isNews ? (LIBRARY_DATA[sec.type] || [])
-                         : (LIBRARY_DATA[sec.type] || []).filter(matches);
+                         : sectionItems(sec).filter(matches);
     if (!items.length) return;
     shown += items.length;
 
@@ -53,16 +66,34 @@ function render() {
       <div class="grid"></div>`;
 
     if (isNews) {
-      el.querySelector('.grid').replaceWith(makeNewsGrid(items));
+      const newsGrid = makeNewsGrid(items);
+      el.querySelector('.grid').replaceWith(newsGrid);
       if (LIBRARY_DATA.newspaperSections) {
-        el.appendChild(makeNewsSectionIndex(LIBRARY_DATA.newspaperSections));
+        el.insertBefore(makeNewsSectionIndex(LIBRARY_DATA.newspaperSections), newsGrid);
       }
       el.insertAdjacentHTML('beforeend',
         '<p class="m-note">＊ 新聞標題與圖片擷取自 The New York Times，點擊可前往原文閱讀。</p>');
+    } else if (sec.subgroups) {
+      // 同一主題底下依來源分開顯示（例如有聲書：小魯數位／飛聽Book 各自一區）
+      const frag = document.createDocumentFragment();
+      sec.subgroups.forEach(sub => {
+        const subItems = items.filter(it => it.type === sub.key);
+        if (!subItems.length) return;
+        const block = document.createElement('div');
+        block.className = 'sub-block';
+        block.innerHTML = `<h3 class="sub-title sub-title-${sub.key}">${escapeHtml(sub.label)}</h3><div class="grid grid-tiles"></div>`;
+        const subGrid = block.querySelector('.grid');
+        subItems.forEach(item => subGrid.appendChild(makeCard(item, sec)));
+        frag.appendChild(block);
+      });
+      el.querySelector('.grid').replaceWith(frag);
     } else {
       const grid = el.querySelector('.grid');
       if (sec.layout === 'tiles') grid.classList.add('grid-tiles');
-      items.forEach(item => grid.appendChild(makeCard(item, sec)));
+      if (sec.layout === 'links') grid.classList.add('grid-links');
+      items.forEach(item => grid.appendChild(
+        sec.layout === 'links' ? makeResearchCard(item) : makeCard(item, sec)
+      ));
     }
     main.appendChild(el);
   });
@@ -77,7 +108,7 @@ function makeCard(item, sec) {
   // 有聲書分類磚：直接點進該系列頁面
   if (item.tile) {
     const tile = document.createElement('a');
-    tile.className = 'tile-card';
+    tile.className = 'tile-card' + (item.type === 'flybook' ? ' tile-flybook' : '');
     tile.href = item.link;
     tile.target = '_blank';
     tile.rel = 'noopener';
@@ -115,6 +146,24 @@ function makeCard(item, sec) {
   card.addEventListener('click', () => openModal(item, sec));
 
   return card;
+}
+
+/* ---------- 研究資源卡片（純文字，直接連到外部工具） ---------- */
+function makeResearchCard(item) {
+  const a = document.createElement('a');
+  a.className = 'research-card';
+  a.href = item.link;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML = `
+    <div class="research-icon">${item.icon || '🔎'}</div>
+    <div class="research-body">
+      <div class="research-title">${escapeHtml(item.title)}</div>
+      ${item.org ? `<div class="research-org">${escapeHtml(item.org)}</div>` : ''}
+      ${item.desc ? `<p class="research-desc">${escapeHtml(item.desc)}</p>` : ''}
+      <span class="research-go">前往查詢 →</span>
+    </div>`;
+  return a;
 }
 
 /* ---------- 新聞牆（NYT 各分類，圖片與標題皆連原文） ---------- */
@@ -220,8 +269,9 @@ document.getElementById('modal-bg').addEventListener('click', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 /* ---------- 左側分類抽屜 ---------- */
-// 記住哪些主題是展開的；預設全部收起，使用者點主題才展開分類
+// 記住哪些主題／子群組是展開的；預設全部收起，使用者點了才展開
 const openGroups = new Set();
+const openSubgroups = new Set();
 
 function buildCategorySidebar() {
   const body = document.getElementById('cat-drawer-body');
@@ -230,11 +280,9 @@ function buildCategorySidebar() {
   SECTIONS.forEach(sec => {
     if (sec.layout === 'news') return;
 
-    const items = LIBRARY_DATA[sec.type] || [];
-    const counts = {};
-    items.forEach(it => { counts[it.category] = (counts[it.category] || 0) + 1; });
-    const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-    if (!cats.length) return;
+    const items = sectionItems(sec);
+    if (!items.length) return;
+    const totalCats = new Set(items.map(it => it.category)).size;
 
     // 目前篩選中的主題自動展開
     if (activeCategory && activeCategory.type === sec.type) openGroups.add(sec.type);
@@ -250,7 +298,7 @@ function buildCategorySidebar() {
     head.innerHTML =
       '<span class="dot"></span>' +
       '<span class="cat-group-name">' + escapeHtml(sec.label) + '</span>' +
-      '<span class="cat-group-n">' + cats.length + '</span>' +
+      '<span class="cat-group-n">' + totalCats + '</span>' +
       '<span class="cat-caret">&#8250;</span>';
 
     const list = document.createElement('div');
@@ -265,30 +313,88 @@ function buildCategorySidebar() {
       list.hidden = !nowOpen;
     });
 
-    cats.forEach(cat => {
-      const btn = document.createElement('button');
-      btn.className = 'cat-item';
-      btn.dataset.type = sec.type;
-      btn.dataset.cat = cat;
-      if (activeCategory && activeCategory.type === sec.type && activeCategory.name === cat) {
-        btn.classList.add('on');
-      }
-      btn.innerHTML = '<span>' + escapeHtml(cat) + '</span><span class="n">' + counts[cat] + '</span>';
-      btn.addEventListener('click', () => {
-        activeCategory = { type: sec.type, name: cat };
-        activeTab = sec.type;
-        syncTabButtons();
-        closeDrawer();
-        updateActiveFilterBanner();
-        buildCategorySidebar();
-        render();
+    if (sec.subgroups) {
+      // 例如有聲書：小魯數位／飛聽Book 各自收合、各自列出自己的分類
+      sec.subgroups.forEach(sub => {
+        const subItems = items.filter(it => it.type === sub.key);
+        if (subItems.length) list.appendChild(buildCatSubgroup(sec, sub, subItems));
       });
-      list.appendChild(btn);
-    });
+    } else {
+      buildCatItems(list, sec, items);
+    }
 
     group.appendChild(head);
     group.appendChild(list);
     body.appendChild(group);
+  });
+}
+
+function buildCatSubgroup(sec, sub, items) {
+  const subKey = sec.type + ':' + sub.key;
+
+  // 目前篩選中的分類若屬於這個子群組，自動展開
+  if (activeCategory && activeCategory.type === sec.type &&
+      items.some(it => it.category === activeCategory.name)) {
+    openSubgroups.add(subKey);
+  }
+  const isOpen = openSubgroups.has(subKey);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'cat-subgroup' + (isOpen ? ' open' : '');
+
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'cat-subgroup-title';
+  head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  head.innerHTML =
+    '<span class="dot subdot-' + sub.key + '"></span>' +
+    '<span class="cat-subgroup-name">' + escapeHtml(sub.label) + '</span>' +
+    '<span class="cat-group-n">' + items.length + '</span>' +
+    '<span class="cat-caret">&#8250;</span>';
+
+  const list = document.createElement('div');
+  list.className = 'cat-subgroup-list';
+  list.hidden = !isOpen;
+
+  head.addEventListener('click', () => {
+    const nowOpen = !wrap.classList.contains('open');
+    if (nowOpen) openSubgroups.add(subKey); else openSubgroups.delete(subKey);
+    wrap.classList.toggle('open', nowOpen);
+    head.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+    list.hidden = !nowOpen;
+  });
+
+  buildCatItems(list, sec, items);
+
+  wrap.appendChild(head);
+  wrap.appendChild(list);
+  return wrap;
+}
+
+function buildCatItems(list, sec, items) {
+  const counts = {};
+  items.forEach(it => { counts[it.category] = (counts[it.category] || 0) + 1; });
+  const cats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-item';
+    btn.dataset.type = sec.type;
+    btn.dataset.cat = cat;
+    if (activeCategory && activeCategory.type === sec.type && activeCategory.name === cat) {
+      btn.classList.add('on');
+    }
+    btn.innerHTML = '<span>' + escapeHtml(cat) + '</span><span class="n">' + counts[cat] + '</span>';
+    btn.addEventListener('click', () => {
+      activeCategory = { type: sec.type, name: cat };
+      activeTab = sec.type;
+      syncTabButtons();
+      closeDrawer();
+      updateActiveFilterBanner();
+      buildCategorySidebar();
+      render();
+    });
+    list.appendChild(btn);
   });
 }
 
@@ -345,6 +451,20 @@ document.getElementById('tabs').addEventListener('click', e => {
     buildCategorySidebar();
   }
   render();
+});
+
+/* 頂部導覽「研究資源」：屬於獨立主題，需先切換頁籤才會出現在畫面上，再捲動過去 */
+document.getElementById('nav-research').addEventListener('click', e => {
+  e.preventDefault();
+  activeTab = 'research';
+  syncTabButtons();
+  if (activeCategory && activeCategory.type !== activeTab) {
+    activeCategory = null;
+    updateActiveFilterBanner();
+    buildCategorySidebar();
+  }
+  render();
+  document.getElementById('sec-research')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 /* ---------- 搜尋框 ---------- */

@@ -1567,5 +1567,25 @@ const LIBRARY_DATA = {
     }
    ]
   }
+ ],
+ "research": [
+  {
+   "title": "小論文得獎作品索引",
+   "org": "小論文寫作比賽網",
+   "desc": "查詢歷屆小論文比賽得獎作品，作為選題與寫作參考。",
+   "link": "https://www.shs.edu.tw/Customer/Winning/EssayIndex",
+   "type": "research",
+   "category": "小論文寫作",
+   "icon": "📝"
+  },
+  {
+   "title": "NBINet 全國圖書書目資訊網",
+   "org": "國家圖書館",
+   "desc": "跨館查詢全國大學及公共圖書館館藏書目，確認圖書所在館別與借閱狀況。",
+   "link": "https://nbinet.primo.exlibrisgroup.com/nde/home?vid=886NCL_NBINET:NBINET&lang=zh-tw",
+   "type": "research",
+   "category": "聯合目錄查詢",
+   "icon": "🔎"
+  }
  ]
 };

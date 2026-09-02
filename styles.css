@@ -10,6 +10,7 @@
   --ebk:       #2f7d8f;   /* 電子書 */
   --aud:       #6a8f4a;   /* 有聲書（小魯） */
   --fly:       #7c5cbf;   /* 有聲書（飛聽Book） */
+  --rsc:       #b5793a;   /* 研究資源 */
   --bg:        #f7f6f3;
   --card:      #ffffff;
   --line:      #e3e0da;
@@ -168,7 +169,7 @@ body {
 .cat-group-title.newspaper .dot { background: var(--news); }
 .cat-group-title.ebook     .dot { background: var(--ebk); }
 .cat-group-title.audiobook .dot { background: var(--aud); }
-.cat-group-title.flybook   .dot { background: var(--fly); }
+.cat-group-title.research  .dot { background: var(--rsc); }
 
 .cat-item {
   display: flex; width: 100%; align-items: center; justify-content: space-between;
@@ -179,6 +180,24 @@ body {
 .cat-item.on { background: #fbe9da; color: var(--accent-dk); font-weight: 700; }
 .cat-item .n { color: var(--muted); font-size: 12px; }
 .cat-item.on .n { color: var(--accent-dk); }
+
+/* 主題底下的子群組（例如有聲書：小魯數位／飛聽Book） */
+.cat-subgroup { border-top: 1px solid var(--line); }
+.cat-subgroup:first-child { border-top: 0; }
+.cat-subgroup-title {
+  display: flex; width: 100%; align-items: center; gap: 8px;
+  padding: 10px 20px 10px 30px; border: 0; background: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text); text-align: left;
+}
+.cat-subgroup-title:hover { background: var(--bg); }
+.cat-subgroup-title .dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
+.subdot-audiobook { background: var(--aud); }
+.subdot-flybook   { background: var(--fly); }
+.cat-subgroup-name { flex: 1 1 auto; }
+.cat-subgroup.open .cat-subgroup-title { color: var(--accent-dk); }
+.cat-subgroup.open .cat-subgroup-title .cat-caret { transform: rotate(90deg); }
+.cat-subgroup-list { padding-bottom: 4px; }
+.cat-subgroup .cat-item { padding-left: 42px; }
 
 .cat-clear {
   margin: 4px 20px 8px; padding: 8px 12px; border-radius: 8px;
@@ -218,6 +237,7 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
 .section[data-type="ebook"]     .section-head h2 { border-left-color: var(--ebk); }
 .section[data-type="audiobook"] .section-head h2 { border-left-color: var(--aud); }
 .section[data-type="flybook"]   .section-head h2 { border-left-color: var(--fly); }
+.section[data-type="research"]  .section-head h2 { border-left-color: var(--rsc); }
 
 .platform {
   font-size: 12.5px; color: var(--muted);
@@ -283,6 +303,15 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
 .heart:hover { color: var(--mag); }
 .heart.on { color: var(--mag); }
 
+/* 同一主題底下依來源分開顯示的子區塊（例如有聲書：小魯數位／飛聽Book） */
+.sub-block + .sub-block { margin-top: 34px; }
+.sub-title {
+  font-size: 15px; font-weight: 700; margin: 0 0 16px;
+  padding-left: 11px; border-left: 3px solid var(--line);
+}
+.sub-title-audiobook { border-left-color: var(--aud); color: var(--aud); }
+.sub-title-flybook   { border-left-color: var(--fly); color: var(--fly); }
+
 /* 有聲書分類磚（直接連到各系列頁面） */
 .grid-tiles {
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -300,7 +329,7 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
 }
 .tile-card img { width: 100%; height: auto; display: block; }
 /* 飛聽Book 封面尺寸不一（方形、橫幅混排），統一成方形磚並完整顯示 */
-.section[data-type="flybook"] .tile-card img {
+.tile-card.tile-flybook img {
   aspect-ratio: 1 / 1; height: auto; object-fit: contain; background: #f3eee9;
 }
 
@@ -320,6 +349,28 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
   color: rgba(255,255,255,.75); font-size: 12px;
   text-shadow: 0 1px 2px rgba(0,0,0,.5);
 }
+
+/* 研究資源卡片（文字式，直接連到外部工具） */
+.grid-links {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.research-card {
+  display: flex; gap: 14px; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 20px;
+  text-decoration: none; color: var(--text);
+  transition: transform .16s, box-shadow .16s, border-color .16s;
+}
+.research-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0,0,0,.1), 0 14px 30px rgba(0,0,0,.12);
+  border-color: var(--rsc);
+}
+.research-icon { font-size: 28px; flex: 0 0 auto; line-height: 1; }
+.research-title { font-size: 15.5px; font-weight: 700; }
+.research-org { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.research-desc { font-size: 13px; color: var(--text); margin: 8px 0 10px; line-height: 1.5; }
+.research-go { font-size: 12.5px; font-weight: 600; color: var(--rsc); }
 
 /* 新聞牆：10 個 NYT 分類，仿報紙版面的欄位式排版 */
 .news-grid {
@@ -357,7 +408,7 @@ main.wrap { padding-top: 72px; padding-bottom: 60px; }
 
 /* NYT 完整分類索引（點標題展開） */
 .news-index {
-  margin-top: 26px; border: 1px solid var(--line); border-radius: var(--radius);
+  margin-bottom: 26px; border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--bg); overflow: hidden;
 }
 .news-index-head {
